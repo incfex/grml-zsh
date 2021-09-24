@@ -2069,7 +2069,9 @@ function prompt_grml_help () {
 
     The available items are: at, battery, change-root, date, grml-chroot,
     history, host, jobs, newline, path, percent, rc, rc-always, sad-smiley,
-    shell-level, time, user, vcs
+    shell-level, shell-prefix, time, user, vcs
+
+    shell-prefix will display the content of environment variable $SHELL_PREFIX
 
     The actual configuration is done via zsh's \`zstyle' mechanism. The
     context, that is used while looking up styles is:
@@ -2194,6 +2196,7 @@ grml_prompt_pre_default=(
     rc-always         ''
     sad-smiley        ''
     shell-level       '%F{red}'
+    shell-prefix      ''
     time              '%F{blue}'
     user              '%B%F{blue}'
     vcs               ''
@@ -2215,6 +2218,7 @@ grml_prompt_post_default=(
     rc-always         ''
     sad-smiley        ''
     shell-level       '%f'
+    shell-prefix      ''
     time              '%f'
     user              '%f%b'
     vcs               ''
@@ -2236,6 +2240,7 @@ grml_prompt_token_default=(
     rc-always         '%?'
     sad-smiley        '%(?..:()'
     shell-level       '%(3L.+ .)'
+    shell-prefix      "$SHELL_PREFIX"
     time              '%D{%H:%M:%S} '
     user              '%n'
     vcs               '0'
@@ -2448,7 +2453,7 @@ function prompt_grml_precmd () {
     emulate -L zsh
     local grmltheme=grml
     local -a left_items right_items
-    left_items=(rc change-root user at host path vcs percent)
+    left_items=(shell-prefix rc change-root user at host path vcs percent)
     right_items=(sad-smiley)
 
     prompt_grml_precmd_worker
@@ -2458,7 +2463,7 @@ function prompt_grml-chroot_precmd () {
     emulate -L zsh
     local grmltheme=grml-chroot
     local -a left_items right_items
-    left_items=(grml-chroot user at host path percent)
+    left_items=(shell-prefix grml-chroot user at host path percent)
     right_items=()
 
     prompt_grml_precmd_worker
@@ -2468,7 +2473,7 @@ function prompt_grml-large_precmd () {
     emulate -L zsh
     local grmltheme=grml-large
     local -a left_items right_items
-    left_items=(rc jobs history shell-level change-root time date newline
+    left_items=(shell-prefix rc jobs history shell-level change-root time date newline
                 user at host path vcs percent)
     right_items=(sad-smiley)
 
